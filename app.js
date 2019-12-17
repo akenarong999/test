@@ -27064,11 +27064,14 @@ jQuery(function ($) {
   //------------------------------------------------------------------------
   $('.query-checkboxes .query-checkbox-collapse').each(function (i) {
     if (i != 1) {
-      // Change icon.
-      $(this).parent().toggleClass('closed');
 
       // Toggle children.
       var nextElement = $(this).parent().next();
+
+      // Change icon.
+      if (nextElement.find('input:checkbox').is(':checked') == false) {
+        $(this).parent().toggleClass('closed');
+      }
 
       if (nextElement.hasClass('children') && nextElement.find('input:checkbox').is(':checked') == false) {
         nextElement.slideToggle(400);
@@ -27168,8 +27171,13 @@ jQuery(function ($) {
   //	Product catalog filter submit on change
   //------------------------------------------------------------------------
   $('.query .query-exposed .query-exposed-taxonomy_product_category input').change(function () {
-    $('.query .query-exposed .query-exposed-taxonomy_product_category input').not(this).prop('checked', false);
     this.form.submit();
+  });
+
+  $('#news-category-dropdown').on('change', function () {
+    var value = $(this).val();
+    var newUrl = updateURLParameter(window.location.href, 'news_category', value);
+    window.location = newUrl;
   });
 }); // end function
 
